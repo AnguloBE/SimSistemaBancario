@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "115221001887",
+    "project_id": "sistema-d8f6c",
+    "storage_bucket": "sistema-d8f6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115221001887:android:988a4a2778395e223f14aa",
+        "android_client_info": {
+          "package_name": "com.example.sistema"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA4OOeXZ684WE9imqnhMzAhnJ2kTMJFG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
