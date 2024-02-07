@@ -15,15 +15,22 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     lateinit var btnNuevoUsuario:Button
+    lateinit var btnNuevaTarjeta:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         btnNuevoUsuario = findViewById(R.id.btnNuevoUsuario)
+        btnNuevaTarjeta = findViewById(R.id.btnNuevaTarjeta)
         setLocale("es")
 
         btnNuevoUsuario.setOnClickListener {
             val intent = Intent(this@MainActivity,ActNuevoUsuario::class.java)
+            startActivity(intent)
+        }
+
+        btnNuevaTarjeta.setOnClickListener {
+            val intent = Intent(this@MainActivity,ActNuevaTarjeta::class.java)
             startActivity(intent)
         }
 

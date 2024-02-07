@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActNuevaTarjeta">
+
+    <TextView
+        android:id="@+id/tvNTTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registro de nueva tarjeta"
+        app:layout_constraintBottom_toTopOf="@+id/tvNTNombreUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNTNombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Usuario a asignar tarjeta:"
+        app:layout_constraintBottom_toTopOf="@+id/actvNTNombreUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNTTitulo" />
+
+    <AutoCompleteTextView
+        android:id="@+id/actvNTNombreUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:hint="Usuario"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/tvNTPinSeguridad"
+        app:layout_constraintTop_toBottomOf="@+id/tvNTNombreUsuario"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <Button
+        android:id="@+id/btnNTCrearTarjeta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear tarjeta"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNTPinSeguridad" />
+
+    <TextView
+        android:id="@+id/tvNTPinSeguridad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pin de seguridad:"
+        app:layout_constraintBottom_toTopOf="@+id/etNTPinSeguridad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actvNTNombreUsuario" />
+
+    <EditText
+        android:id="@+id/etNTPinSeguridad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="4"
+        app:layout_constraintBottom_toTopOf="@+id/btnNTCrearTarjeta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNTPinSeguridad" />
+</androidx.constraintlayout.widget.ConstraintLayout>

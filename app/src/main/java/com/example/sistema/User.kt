@@ -1,13 +1,20 @@
 import android.content.ContentValues.TAG
 import android.util.Log
+import com.google.android.gms.tasks.Continuation
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+import java.util.Calendar
 
 class User(
     var nombreUsuario: String,
     private var fechaNac: Timestamp,
     private var domicilio: String
 ) {
+    constructor() : this("", Timestamp.now(), "") {
+
+    }
+
     private val db = FirebaseFirestore.getInstance()
 
     fun userToFirebase(callback: (String) -> Unit) {
@@ -48,5 +55,31 @@ class User(
                     callback.invoke("Error al verificar el nombre de usuario")
                 }
             }
+    }
+
+    public fun getListaUsuarios(callback: (MutableList<String>) -> Unit) {
+        val listaUsuarios = mutableListOf<String>()
+
+        db.collection("users")
+            .get()
+            .continueWith(Continuation<QuerySnapshot, Unit> { task ->
+                if (task.isSuccessful) {
+                    val querySnapshot = task.result
+                    if (querySnapshot != null) {
+                        for (document in querySnapshot.documents) {
+                            val nombreUsuario = document.getString("nombreUsuario")
+                            if (nombreUsuario != null) {
+                                listaUsuarios.add(nombreUsuario)
+                            }
+                        }
+                        // Llamar al callback con la lista completa
+                        callback.invoke(listaUsuarios)
+                    } else {
+                        Log.d(TAG, "No hay documentos en la colección 'users'")
+                    }
+                } else {
+                    Log.w(TAG, "Error al consultar la base de datos", task.exception)
+                }
+            })
     }
 }

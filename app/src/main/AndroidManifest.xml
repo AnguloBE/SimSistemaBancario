@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Sistema"
         tools:targetApi="31">
         <activity
+            android:name=".ActNuevaTarjeta"
+            android:exported="false" />
+        <activity
             android:name=".ActNuevoUsuario"
             android:exported="false" />
         <activity
