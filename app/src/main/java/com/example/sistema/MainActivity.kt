@@ -6,7 +6,6 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.example.sistemabancario.Tarjeta
 import com.google.firebase.Timestamp
 import java.util.Calendar
 import java.util.GregorianCalendar
@@ -16,12 +15,14 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var btnNuevoUsuario:Button
     lateinit var btnNuevaTarjeta:Button
+    lateinit var btnIngresarDinero: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         btnNuevoUsuario = findViewById(R.id.btnNuevoUsuario)
         btnNuevaTarjeta = findViewById(R.id.btnNuevaTarjeta)
+        btnIngresarDinero = findViewById(R.id.btnIngresarDinero)
         setLocale("es")
 
         btnNuevoUsuario.setOnClickListener {
@@ -31,6 +32,11 @@ class MainActivity : AppCompatActivity() {
 
         btnNuevaTarjeta.setOnClickListener {
             val intent = Intent(this@MainActivity,ActNuevaTarjeta::class.java)
+            startActivity(intent)
+        }
+
+        btnIngresarDinero.setOnClickListener {
+            val intent = Intent(this@MainActivity,IngresarDinero::class.java)
             startActivity(intent)
         }
 

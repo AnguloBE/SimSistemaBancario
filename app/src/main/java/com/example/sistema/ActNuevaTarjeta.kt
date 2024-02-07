@@ -1,5 +1,6 @@
 package com.example.sistema
 
+import Tarjeta
 import User
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,7 +9,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import com.example.sistemabancario.Tarjeta
+import android.widget.Toast
 
 class ActNuevaTarjeta : AppCompatActivity() {
     private lateinit var actvNTNombreUsuario: AutoCompleteTextView
@@ -28,7 +29,10 @@ class ActNuevaTarjeta : AppCompatActivity() {
             val tarjetainit = Tarjeta()
 
             val tarjeta = tarjetainit.newTarjeta(actvNTNombreUsuario.text.toString(),etNTPinSeguridad.text.toString())
-            tarjetainit.toFirebase(tarjeta)
+            tarjetainit.toFirebase(tarjeta) {mensaje ->
+                Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+            }
+
         }
 
 

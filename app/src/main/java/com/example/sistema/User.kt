@@ -4,7 +4,6 @@ import com.google.android.gms.tasks.Continuation
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import java.util.Calendar
 
 class User(
     var nombreUsuario: String,

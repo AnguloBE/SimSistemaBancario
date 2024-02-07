@@ -1,6 +1,3 @@
-package com.example.sistemabancario
-
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
@@ -8,10 +5,10 @@ import java.util.Date
 import kotlin.random.Random
 
 class Tarjeta(
-    private var numTarjeta:String,
-    private var fechaVencimiento:Date,
-    private var cvv:String,
-    private var dineroDisponible:Double = 0.0,
+    var numTarjeta:String,
+    var fechaVencimiento:Date,
+    var cvv:String,
+    var dineroDisponible:Double = 0.0,
     private var pinSeguridad:String,
     private var nombreUsuario:String
 )
@@ -26,7 +23,7 @@ class Tarjeta(
     )
     private val db = FirebaseFirestore.getInstance()
 
-    fun toFirebase(tarjeta:Tarjeta){
+    fun toFirebase(tarjeta:Tarjeta, callback: (String) -> Unit){
         val tarjetaData = mapOf(
             "numTarjeta" to tarjeta.numTarjeta,
             "fechaVencimiento" to tarjeta.fechaVencimiento,
@@ -40,10 +37,38 @@ class Tarjeta(
 
         tarjetaCollection.add(tarjetaData)
             .addOnSuccessListener { documentReference ->
-
+                callback.invoke("Tarjeta registrada correctamente")
             }
-            .addOnFailureListener {
+            .addOnFailureListener {e ->
+                callback.invoke("Error al registrar la tarjeta: $e")
+            }
 
+    }
+
+    public fun getTarjetasUsuario(nombreUsuario: String, callback: (List<Tarjeta>) -> Unit){
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("tarjetas")
+            .whereEqualTo("nombreUsuario", nombreUsuario)
+            .get()
+            .addOnSuccessListener { documents ->
+                val tarjetas = mutableListOf<Tarjeta>()
+                for (document in documents) {
+                    val numTarjeta = document.getString("numTarjeta") ?: ""
+                    val fechaVencimiento = document.getDate("fechaVencimiento") ?: Date()
+                    val cvv = document.getString("cvv") ?: ""
+                    val dineroDisponible = document.getDouble("saldo") ?: 0.0
+                    val pinSeguridad = document.getString("pinSeguridad") ?: ""
+
+                    val tarjeta = Tarjeta(numTarjeta,fechaVencimiento,cvv,dineroDisponible,pinSeguridad,nombreUsuario)
+                    tarjetas.add(tarjeta)
+                }
+                callback.invoke(tarjetas)
+            }
+            .addOnFailureListener { exception ->
+                // Maneja el caso en que ocurra un error al obtener las tarjetas
+                println("Error al obtener las tarjetas del usuario: $exception")
+                callback.invoke(emptyList()) // Devuelve una lista vacía en caso de error
             }
 
     }
