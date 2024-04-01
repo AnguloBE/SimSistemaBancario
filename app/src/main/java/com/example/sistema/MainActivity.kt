@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnNuevoUsuario:Button
     lateinit var btnNuevaTarjeta:Button
     lateinit var btnIngresarDinero: Button
+    lateinit var btnRetirarDinero: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         btnNuevoUsuario = findViewById(R.id.btnNuevoUsuario)
         btnNuevaTarjeta = findViewById(R.id.btnNuevaTarjeta)
         btnIngresarDinero = findViewById(R.id.btnIngresarDinero)
+        btnRetirarDinero = findViewById(R.id.btnRetirarDinero)
         setLocale("es")
 
         btnNuevoUsuario.setOnClickListener {
@@ -37,6 +39,11 @@ class MainActivity : AppCompatActivity() {
 
         btnIngresarDinero.setOnClickListener {
             val intent = Intent(this@MainActivity,IngresarDinero::class.java)
+            startActivity(intent)
+        }
+
+        btnRetirarDinero.setOnClickListener {
+            val intent = Intent(this@MainActivity,RetirarDinero::class.java)
             startActivity(intent)
         }
 

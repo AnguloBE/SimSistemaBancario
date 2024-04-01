@@ -101,12 +101,12 @@ class Tarjeta(
          return tarjeta
     }
 
-    private fun ingresarDinero(montoAIngresar:Double){
+    fun ingresarDinero(montoAIngresar:Double){
         dineroDisponible += montoAIngresar
         actualizarDatos()
     }
 
-    private fun retirarDinero(montoARetirar:Double){
+    fun retirarDinero(montoARetirar:Double){
         if (dineroDisponible>=montoARetirar){
             dineroDisponible-=montoARetirar
             actualizarDatos()
@@ -116,7 +116,34 @@ class Tarjeta(
     }
 
 
-    private fun actualizarDatos(){
-        //aqui se mandara la informacion actualizada de la tarjeta
+    fun actualizarDatos() {
+        val tarjetaData = mapOf(
+            "fechaVencimiento" to fechaVencimiento,
+            "cvv" to cvv,
+            "saldo" to dineroDisponible,
+            "pinSeguridad" to pinSeguridad
+        )
+
+        val tarjetaCollection = db.collection("tarjetas")
+
+        tarjetaCollection.whereEqualTo("numTarjeta", numTarjeta)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val tarjetaDocumentId = document.id
+                    val tarjetaDocumentReference = tarjetaCollection.document(tarjetaDocumentId)
+
+                    tarjetaDocumentReference.update(tarjetaData)
+                        .addOnSuccessListener {
+                            // Aquí puedes manejar el caso de éxito si es necesario
+                        }
+                        .addOnFailureListener { e ->
+                            // Aquí puedes manejar el caso de fallo si es necesario
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                // Aquí puedes manejar el caso de fallo si es necesario
+            }
     }
 }

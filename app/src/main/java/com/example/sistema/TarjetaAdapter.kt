@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TarjetaAdapter(private val tarjetas: List<Tarjeta>): RecyclerView.Adapter<TarjetaAdapter.TarjetaViewHolder>(){
+class TarjetaAdapter(val tarjetas: List<Tarjeta>, var selectedPosition: Int): RecyclerView.Adapter<TarjetaAdapter.TarjetaViewHolder>(){
 
     inner class TarjetaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val numTarjetaTextView: TextView = itemView.findViewById(R.id.numTarjetaTextView)
@@ -15,6 +15,14 @@ class TarjetaAdapter(private val tarjetas: List<Tarjeta>): RecyclerView.Adapter<
         val cvvTextView: TextView = itemView.findViewById(R.id.cvvTextView)
         val saldoTextView: TextView = itemView.findViewById(R.id.saldoTextView)
 
+        init {
+            itemView.setOnClickListener {
+                val previousSelectedPosition = selectedPosition
+                selectedPosition = adapterPosition
+                notifyItemChanged(previousSelectedPosition)
+                notifyItemChanged(selectedPosition)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TarjetaViewHolder {
@@ -24,12 +32,22 @@ class TarjetaAdapter(private val tarjetas: List<Tarjeta>): RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: TarjetaViewHolder, position: Int) {
         val currentItem = tarjetas[position]
-        holder.numTarjetaTextView.text = currentItem.numTarjeta
-        holder.fechaVencimientoTextView.text = currentItem.fechaVencimiento.toString()
-        holder.cvvTextView.text = currentItem.cvv
-        holder.saldoTextView.text = currentItem.dineroDisponible.toString()
+        holder.numTarjetaTextView.text = "Numero de tarjeta: ${currentItem.numTarjeta}"
+        holder.fechaVencimientoTextView.text = "Fecha de vencimiento: ${currentItem.fechaVencimiento.toString()}"
+        holder.cvvTextView.text = "CVV: ${currentItem.cvv}"
+        holder.saldoTextView.text = "Saldo: ${currentItem.dineroDisponible.toString()}"
+
+        // Cambiar el fondo del elemento de tarjeta según su estado de selección
+        if (selectedPosition == position) {
+            holder.itemView.setBackgroundResource(R.drawable.border_selected)
+        } else {
+            holder.itemView.setBackgroundResource(R.drawable.border_custom)
+        }
+    }
+    fun obtenerSelectedPosition(): Int {
+        return selectedPosition
     }
 
     override fun getItemCount() = tarjetas.size
-
 }
+

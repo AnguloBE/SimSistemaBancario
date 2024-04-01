@@ -16,30 +16,30 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-class IngresarDinero : AppCompatActivity() {
-    private lateinit var actvIDNombreUsuario : AutoCompleteTextView
-    private lateinit var rvIDSelecionTarjeta : RecyclerView
-    private lateinit var etIDMontoIngresar : EditText
-    private lateinit var btnIDIngresar : Button
+class RetirarDinero : AppCompatActivity() {
+    private lateinit var actvRDNombreUsuario : AutoCompleteTextView
+    private lateinit var rvRDSelecionTarjeta : RecyclerView
+    private lateinit var etRDMontoIngresar : EditText
+    private lateinit var btnRDIngresar : Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ingresar_dinero)
+        setContentView(R.layout.activity_retirar_dinero)
 
-        actvIDNombreUsuario = findViewById(R.id.actvRDNombreUsuario)
-        rvIDSelecionTarjeta = findViewById(R.id.rvRDSelecionTarjeta)
-        etIDMontoIngresar = findViewById(R.id.etRDMontoRetirar)
-        btnIDIngresar = findViewById(R.id.btnRDRetirar)
+        actvRDNombreUsuario = findViewById(R.id.actvRDNombreUsuario)
+        rvRDSelecionTarjeta = findViewById(R.id.rvRDSelecionTarjeta)
+        etRDMontoIngresar = findViewById(R.id.etRDMontoRetirar)
+        btnRDIngresar = findViewById(R.id.btnRDRetirar)
 
         //ponemos el adapater de todos los posibles nombres de personas al autocomplete textview
         listaUsuarios()
 
         // Configurar el LinearLayoutManager para el RecyclerView
-        rvIDSelecionTarjeta.layoutManager = LinearLayoutManager(this)
+        rvRDSelecionTarjeta.layoutManager = LinearLayoutManager(this)
 
-        actvIDNombreUsuario.setOnItemClickListener { _, _, position, _ ->
-            val nombreUsuarioSelecionado = actvIDNombreUsuario.adapter.getItem(position) as String
+        actvRDNombreUsuario.setOnItemClickListener { _, _, position, _ ->
+            val nombreUsuarioSelecionado = actvRDNombreUsuario.adapter.getItem(position) as String
 
             val tarjetai = Tarjeta()
             tarjetai.getTarjetasUsuario(nombreUsuarioSelecionado) {tarjetas ->
@@ -47,15 +47,15 @@ class IngresarDinero : AppCompatActivity() {
             }
         }
 
-        btnIDIngresar.setOnClickListener {
-            val montoIngresarText = etIDMontoIngresar.text.toString()
+        btnRDIngresar.setOnClickListener {
+            val montoIngresarText = etRDMontoIngresar.text.toString()
             if (montoIngresarText.isNotEmpty()) {
                 val montoIngresar = montoIngresarText.toDouble()
 
-                if (rvIDSelecionTarjeta.adapter != null && rvIDSelecionTarjeta.adapter!!.itemCount > 0) {
-                    val tarjetaAdapter = rvIDSelecionTarjeta.adapter as TarjetaAdapter
+                if (rvRDSelecionTarjeta.adapter != null && rvRDSelecionTarjeta.adapter!!.itemCount > 0) {
+                    val tarjetaAdapter = rvRDSelecionTarjeta.adapter as TarjetaAdapter
                     val tarjetaSeleccionada = tarjetaAdapter.tarjetas[tarjetaAdapter.obtenerSelectedPosition()]
-                    tarjetaSeleccionada.ingresarDinero(montoIngresar)
+                    tarjetaSeleccionada.retirarDinero(montoIngresar)
                     // Notificar al adaptador de que los datos han cambiado
                     tarjetaAdapter.notifyDataSetChanged()
                     // Aquí puedes agregar cualquier otra acción después de ingresar el dinero, como actualizar la interfaz de usuario, etc.
@@ -74,11 +74,11 @@ class IngresarDinero : AppCompatActivity() {
         user.getListaUsuarios { listaUsuarios ->
             runOnUiThread {
                 val adapter = ArrayAdapter(
-                    this@IngresarDinero,
+                    this@RetirarDinero,
                     android.R.layout.simple_dropdown_item_1line,
                     listaUsuarios
                 )
-                actvIDNombreUsuario.setAdapter(adapter)
+                actvRDNombreUsuario.setAdapter(adapter)
             }
         }
     }
@@ -87,7 +87,7 @@ class IngresarDinero : AppCompatActivity() {
     private fun mostrarTarjetas(tarjetas: List<Tarjeta>) {
         if (tarjetas.isNotEmpty()) {
             val adapter = TarjetaAdapter(tarjetas,RecyclerView.NO_POSITION)
-            rvIDSelecionTarjeta.adapter = adapter
+            rvRDSelecionTarjeta.adapter = adapter
             adapter.notifyDataSetChanged()
         } else {
             // Aquí puedes manejar el caso en el que no hay tarjetas para mostrar
